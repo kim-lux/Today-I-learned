@@ -1,0 +1,319 @@
+/*
+
+--Memory Stack--
+Code : .exe 가 존재
+Data : 전역 변수, 상수
+Heap : 동적 메모리 할당 => ex) = (type)malloc(400); => Return 값이 메모리 주소로 나타남
+Stack : 함수호출, 지역변수
+
+(예제 1)
+문법적으로 잘못된 것은 없어 p는 b의 주소값을 기억하긴 하지만.
+이 프로그램의 문제점은 b가 지역변수라서 함수가 끝남과 동시에 메모리가 사라진다.
+그러므로 기대한 4라는 값이 아닌 다른 값이 나오게 된다.
+
+#include <stdio.h>
+
+int *addTwo(int a) {
+  int b;
+  printf("b address = %p\n", &b);
+  b = a + 2;
+  return &b;
+}
+
+int main(void) {
+  int *p;
+  p = addTwo(2);
+  printf("p=%p\n", p);
+  printf("*p=%d\n", *p);
+}
+
+(예제 2)
+예제 1과는 다르게 프로그램이 종료될때 가지 메모리가 Heap영역에 살아있다.
+
+#include <stdio.h>
+#include <stdlib.h>
+int * addTwo(int a) {
+  int *ptr;
+  ptr = (int *)malloc(sizeof(int));
+  *ptr = a+2;
+  return ptr;
+}
+
+int main(void) {
+  int *p;
+  p = addTwo(2);
+  printf("p=%p\n", p);
+  printf("*p=%d\n", *p);
+  free(p);
+  printf("*p=%d\n", *p);
+}
+
+(예제 3)
+
+구조체 포인터의 사용법
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StudentNode
+{
+  char name[100];
+  int id;
+  float gpa;
+};
+
+int main()
+{
+  struct StudentNode s1, s2;
+  struct StudentNode * p;
+  
+  //printf("size = %d \n", sizeof(struct StudentNode)); // 100 + 4 + 4
+  //printf("size = %d \n", sizeof(struct StudentNode *)); // 포인터 변수는 프로그램에 따라 다르지만 언제나 4(32bit)/8 byte 이다.
+  strcpy(s1.name, "Kim");
+  s1.id = 10;
+  s1.gpa = 3.4;
+  p = &s1;
+  (*p).id = 20;
+  (*p).gpa = 4.0;  // *p.id 라고 사용하게 되면 "."을 먼저 해석하기 때문에 Error가 난다.
+  p->id = 30; // 구조체 포인터의 경우에는 위를 이처럼 사용한다. (X) s1->id = 40
+  
+}
+
+(예제 4)
+구조체 Linked_List 간략히 만들기
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StudentNode
+{
+  char name[100];
+  int id;
+  float gpa;
+  struct StudentNode* next;
+};
+
+int main()
+{
+  struct StudentNode *ptr;
+  struct StudentNode *temp;
+
+  ptr = (struct StudentNode *)malloc(sizeof(struct StudentNode));
+  strcpy(ptr -> name, "Kim");
+  ptr -> id = 10;
+  ptr -> gpa = 3.5;
+  ptr -> next = NULL; // 0번지를 가리킨다. => 아무것도 가리키지 않는다 라고 약속
+
+  temp = (struct StudentNode *)malloc(sizeof(struct StudentNode));
+  strcpy(temp -> name, "Lee");
+  temp -> id = 20;
+  temp -> gpa = 3.6;
+  temp -> next = NULL;
+
+  ptr->next = temp;
+  
+}
+
+(예제 5)
+Insertion / Create 구현
+그러나 Inserion Node안에서는 생성이 되었지만 main 문에서 PrintData를 하면 Insertion된 Node가 나타나지 않는다
+그 이유는 원래 main안에서 top이 첫번째 Node를 가리키고 있었고 Insertion 함수에서는 first가 첫번째 노드를 top과 동시에
+가리키게 된다. first는 변경이 되지만 함수를 빠져나왔을 때는 first가 가리켰던 것은 의미가 없고 top이 그대로 이전 Node를 가리키고 있기 때문에
+Insertion을 해도 그대로 출력되게 된다.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StudentNode
+{
+  char name[100];
+  int id;
+  float gpa;
+  struct StudentNode* next;
+};
+
+
+struct StudentNode * createNode(char name[],int id, float gpa)
+{
+  struct StudentNode * ptr;
+  ptr = (struct StudentNode *)malloc(sizeof(struct StudentNode));
+  strcpy(ptr -> name, name);
+  ptr -> id = id;
+  ptr -> gpa = gpa;
+  ptr -> next = NULL; 
+  return ptr;
+}
+
+void printData (struct StudentNode *first)
+{
+  printf("\n");
+  while (first != NULL)
+    {
+      printf("%s %d %.2f \n", first->name, first->id, first->gpa);
+      first = first->next;
+    }
+}
+
+void insertData (struct StudentNode * first, char name[], int id, float gpa)
+{
+  struct StudentNode *ptr;
+  ptr = createNode(name, id, gpa);
+
+  ptr -> next = first;
+  first = ptr;
+  printData(first);
+}
+
+int main()
+{
+  struct StudentNode *top;
+  struct StudentNode *temp;
+
+  top = createNode("Kim", 10, 3.4);
+  temp = createNode("Lee", 20, 3.5);
+  
+  top->next = temp;
+  printData(top);
+  insertData(top,"Park", 30, 4.0);
+
+  printf("\n after insertion\n");
+  printData(top);
+}
+
+
+(예제 6)
+포인터의 포인터를 이용해 위의 문제를 해결한 예제
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StudentNode
+{
+  char name[100];
+  int id;
+  float gpa;
+  struct StudentNode* next;
+};
+
+
+struct StudentNode * createNode(char name[],int id, float gpa)
+{
+  struct StudentNode * ptr;
+  ptr = (struct StudentNode *)malloc(sizeof(struct StudentNode));
+  strcpy(ptr -> name, name);
+  ptr -> id = id;
+  ptr -> gpa = gpa;
+  ptr -> next = NULL; 
+  return ptr;
+}
+
+void printData (struct StudentNode *first)
+{
+  printf("\n");
+  while (first != NULL)
+    {
+      printf("%s %d %.2f \n", first->name, first->id, first->gpa);
+      first = first->next;
+    }
+}
+
+void insertData (struct StudentNode ** first, char name[], int id, float gpa)
+{
+  struct StudentNode *ptr;
+  ptr = createNode(name, id, gpa);
+
+  ptr -> next = *first;
+  *first = ptr;
+  printData(*first);
+}
+
+int main()
+{
+  struct StudentNode *top;
+  struct StudentNode *temp;
+
+  top = createNode("Kim", 10, 3.4);
+  temp = createNode("Lee", 20, 3.5);
+  
+  top->next = temp;
+  printData(top);
+  insertData(&top,"Park", 30, 4.0); //top의 주소를 넘겨주어야 Top이 가리키는 곳을 바꿀 수 있다. => 포인터의 포인터(더블포인터가 필요한 이유)
+  //포인터의 그 자체를 변경하고 싶으면 포인터의 포인터를 넘겨야 한다.
+  printf("\n after insertion\n");
+  printData(top);
+}
+
+
+(예제 7)
+함수포인터의 사용법
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int add(int, int);
+int multiply(int, int);
+
+int main()
+{
+  int x;  
+  int (*fptr) (int,int); // 이름: fptr , Type : int(*)(int, int) => 함수포인터(함수의 주소를 기억)
+  int *p;
+  fptr = add;  
+  x = add(2,3);
+  x = (*fptr)(4,5); //(*fptr) => add함수 자체를 가르킴, 함수포인터의 경우에만 fptr을 그대로 사용해도 된다. 
+  x = fptr(4,5);
+  //printf("add function = %p\n", &add); //함수도 Code이기 때문에 Memory에 존재한다. 
+  //printf("main function = %p\n", main); //&를 붙여도 되고 안붙여도 됨.
+}
+
+int add(int a, int b)
+{
+  int result;
+  printf("add 함수 호출\n");  
+  result = a + b;
+  return result;
+}
+int multiply(int a, int b)
+{
+  int result;
+  printf("multiply 함수 호출\n");  
+  result = a * b;
+  return result;
+}
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int add(int, int);
+int multiply(int, int);
+
+
+// C언어는 함수포인터를 통해 다형성을 흉내, 다형성 => 형태는 같은데 그때 그때 다른 것들이 호출이 된다.
+int main()
+{
+  int x;  
+  int (*fptr) (int,int); 
+  fptr = add;  
+  x = fptr(4,5);
+  printf("x = %d\n",x);
+  fptr = multiply;  
+  x = fptr(4,5);
+  printf("x = %d\n",x);
+}
+
+int add(int a, int b)
+{
+  int result;
+  printf("add 함수 호출\n");  
+  result = a + b;
+  return result;
+}
+int multiply(int a, int b)
+{
+  int result;
+  printf("multiply 함수 호출\n");  
+  result = a * b;
+  return result;
+}
