@@ -1,0 +1,26 @@
+gdb 디버거 사용법
+
+gcc a.c -o b.out -g
+
+gdb ./b.out
+
+run => 실행(단축키 r)
+list + <파일이름(안쓰면 본인)> => 코드 10줄을 보여줌 
+break  + <line number>=> breakpoint(단축키 b)
+info + b => breakpoint에 대한 정보
+continue => breakpoint다음을 실행(단축키 c)
+where => 지금 어디에 걸려 있는지 알 수 있음 / core dumped 떴을 때 어디에서 죽었는지 알 수 있다.
+up / down => 을 통해 함수를 왔다 갔다 할 수 있음
+print + <변수 이름> = 해당 위치에서 변수의 값을 볼 수 있음 (단축키 p) , ex) print *a를 통해 c언어 처럼 볼 수 도 있음
+next => 명령어 한줄씩 실행(함수 안까지는 안들어감)
+step => 명령어 한줄씩 실행(함수 안까지 들어감)
+display => print와 달리 한번 보여주는게 아니라 명령어 한줄씩 실행될 때 마다 계속 보여줌
+enable / disable + <break point id>=> 잠시 break point를 활성화/ 비활성화 시킴
+delete + <break point id>=> break point를 삭제 시킴
+quit => 디버거 종료
+
+
+------------------------------
+xxd <파일 명> : 바이터리 파일을 열어줌
+
+=> 12345678을 저장 되어 있으면 <낮은주소>87654321<높은주소>로 보여짐 => little endian
