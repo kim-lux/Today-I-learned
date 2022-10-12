@@ -1,0 +1,21 @@
+ln : inode도 같음
+ln -s a.c c.c :  a.c파일을 수정하면 c.c파일도 동일하게 수정이 된다. => 단순히 링크만 걸어줌
+
+find . -name "signal.h" -print : 현재 dir에서 "signal.h" 을 find 함
+
+
+grep ifdef signal.h : signal.h에서 "ifdef" 라는 문자열이 있는지 찾아줌
+
+grep SIGNAL *.h => 현재 dir 만 가능
+
+find . -name "*.h" -exec grep SIGNAL {} /dev/null \; => 현재 dir 이외에 안까지 SIGNAL이 란 것을 찾음
+
+ write root /dev/pts/7
+
+control c 개념 /signal?
+
+ps -aux | grep sig
+
+kill -2 6654 => 특정프로세서 한테 2번을 보냄 /9번을 보내면 죽음
+
+kill 6654 => 그냥 죽일 수도 있음 
