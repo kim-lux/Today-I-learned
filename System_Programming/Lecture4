@@ -24,3 +24,55 @@ quit => 디버거 종료
 xxd <파일 명> : 바이터리 파일을 열어줌
 
 => 12345678을 저장 되어 있으면 <낮은주소>87654321<높은주소>로 보여짐 => little endian
+
+
+------------------------------
+file) w1.c
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+struct Node {
+	int a;
+	float b;
+	char name[12];
+};
+
+int main ()
+{
+	int fd;
+	struct Node node;
+	node.a = 10;
+	node.b = 3.14;
+	strcpy (node.name, "Kim");
+	fd = open ("bbb.data", O_RDWR | O_CREAT);
+	write (fd, &node, sizeof(struct Node));
+	close (fd);
+}
+
+
+file) r1.c
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+struct Node {
+	int a;
+	float b;
+	char name[12];
+};
+
+int main ()
+{
+	int fd;
+	struct Node node;
+	fd = open ("bbb.data", O_RDWR | O_CREAT);
+	read (fd, &node, sizeof(struct Node));
+	printf ("node.a = %d\n", node.a);
+	printf ("node.b = %f\n", node.b);
+	printf ("node.name = %s\n", node.name);
+	close (fd);
+}
+
