@@ -1,3 +1,21 @@
+/*
+* 다음과 같이 구조체를 선언해서 프로그램 작성
+
+   struct CalculatorNode {
+         int a;
+         int b;
+         char name[20];
+         int (*fptr) (int, int);
+         struct CalculatorNode * next;
+   };
+
+* Linked List로 다음의 기능을 구현
+  - 계산 노드 생성 (add/sub/multiply/divide) 
+  - 현재까지 생성된 계산 노드 출력
+  - 현재까지 생성된 계산 노드들의 계산 결과를 출력
+  - 전체 삭제
+  - 프로그램 종료
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
