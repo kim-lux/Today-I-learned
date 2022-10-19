@@ -36,20 +36,21 @@ ls -i 옵션을 통해 inode를 알 수 있다.
 파일을 삭제할 때는 inode 데이터만 지우는 것이라서 물리적인 데이터는 남아있어서 복구가 가능하다.
 
 
+* tty : 이 터미널이 어떤 file에 연결 되어 있는지 확인
+
+ write root /dev/pts/7 : 7번 터미널에 연결해서 쓸 수 있음
+=> 터미널/ 디바이스들이 파일 형식으로 read/write 되고 있음
 
 
-
- write root /dev/pts/7
-
-control c 개념 /signal?
-
+* signal_handling
+result = signal(int signum, void(*action)(int)) => argu가 int 하나이고 return이 void 인 함수
 ps -aux | grep sig
 
 kill -2 6654 => 특정프로세서 한테 2번을 보냄 /9번을 보내면 죽음
 
 kill 6654 => 그냥 죽일 수도 있음 
 
-시그널은 software Interrupt이다. 비동기적으로 발생하고 유닉스 운영체제가 프로세스에 전달한다.
+* 시그널은 software Interrupt이다. 비동기적으로 발생하고 유닉스 운영체제가 프로세스에 전달한다.
 Signal은 다음과 같은 3가지 경우에 발생한다.
 1. 0으로 나누기 처럼 프로그램에서 예외적인 상황이 일어나는 경우
 2. Process가 Kill 함수와 같이 시그널을 보낼 수 있는 함수를 사용해 다른 프로세스에 시그널을 보내는 경우
