@@ -1,0 +1,43 @@
+ps -aux | grep a.out
+sigusr1 = 10
+sigusr2 = 12
+sigINT = 2 => control + c
+한 프로세스한테 번호로 된 신호를 보내는 것
+
+kill -l : 프로그램에 존재하는 signal들을 보여줌
+
+함수포인터 문제는 나옴 그냥 포인터 문제는 안나옴
+
+kill signal을 통해서
+권한이 없는 애는 죽일 수 없음
+root에서 실행된 파일을 일반 유저에서 죽일 수 없음
+일반유저에서 실행된 파일을 root에서 죽일 수 있음
+
+signal(SIGINT, my_sig_handler) => SIGINT에 my_sig_handler 시그널 등록
+signal(SIGINT, SIG_IGN) => SIGINT 시그널 무시
+signal(SIGKILL, SIG_IGN) => SIGKILL / SIGSTOP 시그널은 무시 못함
+
+signal(SIGINT, SIG_DFL) => SIGINT 시그널 을 원래로 돌려 놓음
+
+pause() :  SIGNAL 이 발생할 때 까지 기다리고 있음
+sleep(초) : 기본적으로 ~동안 멈춰있지만 그 사이에 SIGNAL 이 발생할 때 멈춤을 중단하고 그 다음을 실행함
+alarm(5) :  5초 뒤에 SIGALRM이라는 signal을 자기 자신한테 보낸다. 
+=> main과 handler에 넣으면 5초 주기로 handler가 실행된다.
+
+sytem call이 함수랑 다른점 +signal handler
+
+signal handler는 무조건 한사이클 수행되고 도중에 signal이 들어왔을 경우 
+signal handler가 다 수행되고 그 다음에 바로 수행 된다. signal이 여러번 들어왔을 경우에도 한번으로 인식하고 처리한다.
+
+과제
+
+자신의 pid 출력 
+
+pid_t pid;
+pid = getpid();
+printf("pid = %d \n",pid);
+
+kill 이라는 시스템 콜로 보냄
+
+원래하는
+
