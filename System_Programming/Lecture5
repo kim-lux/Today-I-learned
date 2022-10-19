@@ -1,14 +1,43 @@
-ln : inode도 같음
-ln -s a.c c.c :  a.c파일을 수정하면 c.c파일도 동일하게 수정이 된다. => 단순히 링크만 걸어줌
+*링크를 거는 방법 2가지 / 바로가기에 해당하는 명령어이다.
+
+ 1. ln a.c c.c : a.c파일을 수정하면 c.c파일도 동일하게 수정이 된다. => inode도 같음 / 물리적으로 같은 파일이다 
+
+ 2. ln -s a.c c.c :  a.c파일을 수정하면 c.c파일도 동일하게 수정이 된다. => 단순히 링크만 걸어줌(심볼릭 링크) / inode는 다름
+
+
+*find 명령어
 
 find . -name "signal.h" -print : 현재 dir에서 "signal.h" 을 find 함
 
+*grep 명령어
 
-grep ifdef signal.h : signal.h에서 "ifdef" 라는 문자열이 있는지 찾아줌
+grep ifdef signal.h 
+: signal.h에서 "ifdef" 라는 문자열이 있는지 찾아줌
 
-grep SIGNAL *.h => 현재 dir 만 가능
+grep ifdef *.h | more 
+: *.h에서 "ifdef" 라는 문자열이 있는지 찾아줌 /  한페이지 단위로
 
-find . -name "*.h" -exec grep SIGNAL {} /dev/null \; => 현재 dir 이외에 안까지 SIGNAL이 란 것을 찾음
+grep SIGNAL *.h 
+: 현재 *dir에서 .h 라는 이름을 가진 파일 중에 SIGNAL이 어디 있는지
+
+*find & grep 명령어
+
+find . -name "*.h" -exec grep SIGNAL {} /dev/null \; 
+: 현재 dir *이외에 안까지 SIGNAL이 란 것을 찾음
+
+*file System
+
+리눅스에서 파일은 superblock + inode table + data area 로 나누어 관리 된다.
+
+모든 파일은 inode를 가지는데 파일의 데이터가 하드디스크의 어느 곳에 저장되어 있는지(어느 데이터 블록을 사용하는지) list로 관리하여 알려준다.
+
+ls -i 옵션을 통해 inode를 알 수 있다.
+
+파일을 삭제할 때는 inode 데이터만 지우는 것이라서 물리적인 데이터는 남아있어서 복구가 가능하다.
+
+
+
+
 
  write root /dev/pts/7
 
