@@ -1,14 +1,31 @@
-File Vs Dir
+whami : 현재 user가 누구인지 출력
+adduser <user name> : 새로운 User(ID)를 만듦
+su <user name> : 해당 User로 변경
+
+
+ls 
+-a : 숨겨져 있는 파일들을 탐색
+-l : 자세한 정보를 얻고 싶을 때
+
+*ls 명령어 같은 것들은 system Call을 사용해서 구현이 되어 있다.
+
+int main(int argc, char *argv[])
+argc : argument의 개수 ./a.out 포함
+argv[x] : argument의 내용 ./a.out 포함
+
+
+*File Vs Dir
+
+Dir : file들의 정보를 가지고 있는 file이다.
 
 Dir 읽는 코드 작성(opendir, readdir)
 
-chmod
+*chmod
+리눅스에서는 어떻게 file에 대한 접근 권한을 관리하느냐
+user/group/모든사람(ㅐ솓ㄱ)
+r : 읽기 권한
+w : 쓰기 권한
+x : 실행 권한
 
-echo
+chmod를 통해서 권한 변경 가능 
 
-mkdir 시 일어나는 일
-
-setuser id?
-https://www.lesstif.com/lpt/linux-setuid-setgid-sticky-bit-93127311.html
-
-mount / mount point
