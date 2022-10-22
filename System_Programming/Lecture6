@@ -1,7 +1,7 @@
 ps -aux | grep a.out
-sigusr1 = 10
-sigusr2 = 12
-sigINT = 2 => control + c
+SIGUSR1 = 10
+SIGUSR2 = 12
+SIGINT = 2 => control + c
 함수포인터 문제는 나옴 그냥 포인터 문제는 안나옴
 
 
