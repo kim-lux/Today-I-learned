@@ -258,9 +258,10 @@ int multiply(int, int);
 int main()
 {
   int x;  
-  int (*fptr) (int,int); // 이름: fptr , Type : int(*)(int, int) => 함수포인터(함수의 주소를 기억)
+  // 괄호가 없으면 함수의 선언/  괄호가 있으면 변수의 선언
+  int (*fptr) (int,int); // 이름: fptr , Type : int(*)(int, int) => 함수포인터(함수의 주소를 기억) /(return 값이 int 값이고 parameter가 int두 개인 함수의)
   int *p;
-  fptr = add;  
+  fptr = add;  // fptr = &add; 로 써도 됨
   x = add(2,3);
   x = (*fptr)(4,5); //(*fptr) => add함수 자체를 가르킴, 함수포인터의 경우에만 fptr을 그대로 사용해도 된다. 
   x = fptr(4,5);
