@@ -48,9 +48,21 @@ vi <file name> => vi 문서 편집기를 열어줌.
 
 ---------------------------------------------------------------------
 gcc a.c => 컴파일 후 실행파일을 만듦
-gcc -c a.c => 컴파일만 함/ ".o" (object 파일)을 만들게 됨.
+gcc -c a.c => 컴파일만 함/ ".o" (object 파일)을 만들게 됨. / link를 하지 않음
 gcc a.o => object파일로 실행파일로 만듦.(Link 작업을 함)
 
-=> 나눠서 하는 이유 : 수정한 파일만 컴파일을 해주고 새로 수정한 것만 합쳐서 Linking을 해주면 컴파일 시간이 줄어들기 때문
+Ex) 
+add.c => int main() 이 없는 파일, int add (int, int) 가 있음
+main.c => int main() 이 있는 파일, add를 사용함, 상단에 int add (int, int)를 선언해줌
+이 존재할 때
+단독으로 gcc add.c를 하면 오류가 생김
+1. gcc add.c main.c 로 컴파일을 하면 a.out이라는 실행파일이 생성되게 됨
+
+혹은
+
+2.1 gcc -c add.c / gcc -c main.c 를 하게 되면 add.o 파일과 main.o 파일이 생성
+2.2 gcc add.o main.o 를 하게 되면 a.out이라는 실행파일이 생성되게 됨
+
+=> 나눠서 gcc -c 하는 이유 : 수정한 파일만 컴파일을 해주고 새로 수정한 것만 합쳐서 .o 파일을 gcc 해주면 Linking을 해주면 컴파일 시간이 줄어들기 때문
 => makefile이 있는 이유 : 수정한 것만 알아서 보고 컴파일 해주기 위해서
 ./a.out => 실행 파일을 실행
