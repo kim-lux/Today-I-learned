@@ -30,6 +30,7 @@ file 상태정보를 가지고 있다.
 Dir 읽는 코드 작성(opendir, readdir)
 
 *chmod
+mod  = file type + permission
 리눅스에서는 어떻게 file에 대한 접근 권한을 관리하느냐
 user/group/모든사람
 r : 읽기 권한
