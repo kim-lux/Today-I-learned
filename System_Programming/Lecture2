@@ -3,7 +3,7 @@ mkdir <file name> => 해당 위치에 <<file name>을 가진 폴더를 만듦
 pwd => 자신의 위치를 알려줌
 clear => 화면의 log를 지워줌
 touch <file name> => 빈 파일을 만들어줌
-cat <file name> =>  
+cat <file name> =>  파일 한 개 이상의 내용을 화면에 출력할때 사용
 cd .. => 상위 dir로 넘어감
 cp <file name1> <file name2> => 파일 이름 1을 파일 이름 2로 Copy함.
 mv <file name1> <file name2> => 파일 이름을 1에서 2로 바꾸어 줌.
@@ -16,7 +16,7 @@ rmdir <dir name> => dir을 지우는데 안에 있는 파일이 전부 지워져
 vi 사용법
 
 vi <file name> => vi 문서 편집기를 열어줌.
-
+t
 명령어 모드 :
 1.1 초기 명령어 모드에서 "i"(insert) 명령어를 통해서 입력모드로 갈 수 있다.
 1.2 초기 명령어 모드에서 "a"(append) 명령어를 통해서 입력모드로 갈 수 있다.
