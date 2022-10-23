@@ -17,6 +17,15 @@ argv[x] : argument의 내용 ./a.out 포함
 *File Vs Dir
 
 Dir : file들의 정보를 가지고 있는 file이다.
+file system은 대부분 tree 구조이다
+directory : file name과 file location을 함께 가지고 있다. (inode number + file number)
+하나의 같은 파일을 가르키는 여러개의 파일이름을 가질 수 있다
+
+* inode
+각 파일은 inode 값을 가지고 있다
+data block을 찾아 갈 수 있는 pointer 값을 저장하고 있다.
+file 상태정보를 가지고 있다.
+
 
 Dir 읽는 코드 작성(opendir, readdir)
 
