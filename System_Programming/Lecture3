@@ -30,7 +30,7 @@ file 상태정보를 가지고 있다.
 Dir 읽는 코드 작성(opendir, readdir)
 DIR* dir_ptr = opendir("filename") => 못열면 NULL을 return 열면 DIR 구조체의 포인터를 반환
 closedir(dir_ptr) => 열려있는 디렉토리를 안전하게 닫아줌
-struct dirent = direntp readdir(dir_ptr) => 못열면 NULL을 return 열면 디렉토리 엔트리의 포인터를 반환
+struct dirent direntp = readdir(dir_ptr) => 못열면 NULL을 return 열면 디렉토리 엔트리의 포인터를 반환
 
 *chmod
 mod  = file type + permission
