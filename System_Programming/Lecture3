@@ -28,6 +28,9 @@ file 상태정보를 가지고 있다.
 
 
 Dir 읽는 코드 작성(opendir, readdir)
+DIR* dir_ptr = opendir("filename") => 못열면 NULL을 return 열면 DIR 구조체의 포인터를 반환
+closedir(dir_ptr) => 열려있는 디렉토리를 안전하게 닫아줌
+struct dirent = direntp readdir(dir_ptr) => 못열면 NULL을 return 열면 디렉토리 엔트리의 포인터를 반환
 
 *chmod
 mod  = file type + permission
@@ -111,22 +114,22 @@ void show_file_info(char* filename, struct stat* info_p)
 
 void mode_to_letters(int mode, char str[])
 {
-	  strcpy(str,"-------------");
-	  if(S_ISDIR(mode)) str[0] = 'd';
-	  if(S_ISCHR(mode)) str[0] = 'c';
-		if(S_ISBLK(mode)) str[0] = 'd';
+	strcpy(str,"-------------");
+	if(S_ISDIR(mode)) str[0] = 'd';
+	if(S_ISCHR(mode)) str[0] = 'c';
+	if(S_ISBLK(mode)) str[0] = 'd';
 
-		if(mode & S_IRUSR) str[1] = 'r';
-		if(mode & S_IWUSR) str[2] = 'w';
-		if(mode & S_IXUSR) str[3] = 'x';
+	if(mode & S_IRUSR) str[1] = 'r';
+	if(mode & S_IWUSR) str[2] = 'w';
+	if(mode & S_IXUSR) str[3] = 'x';
 		        
-    if(mode & S_IRGRP) str[4] = 'r';
-	  if(mode & S_IWGRP) str[5] = 'w';
-	  if(mode & S_IXGRP) str[6] = 'x';
+        if(mode & S_IRGRP) str[4] = 'r';
+	if(mode & S_IWGRP) str[5] = 'w';
+	if(mode & S_IXGRP) str[6] = 'x';
 
-		if(mode & S_IROTH) str[7] = 'r';
-		if(mode & S_IWOTH) str[8] = 'w';
-		if(mode & S_IXOTH) str[9] = 'x';
+	if(mode & S_IROTH) str[7] = 'r';
+	if(mode & S_IWOTH) str[8] = 'w';
+	if(mode & S_IXOTH) str[9] = 'x';
 
 }
 #include<pwd.h>
