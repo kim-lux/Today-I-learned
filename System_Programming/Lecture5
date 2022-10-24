@@ -24,12 +24,6 @@ find . -name "signal.h" -print : 현재 dir에서 "signal.h" 을 find 함
 grep ifdef signal.h 
 : signal.h에서 "ifdef" 라는 문자열이 있는지 찾아줌
 
-grep ifdef *.h | more 
-: *.h에서 "ifdef" 라는 문자열이 있는지 찾아줌 /  한페이지 단위로
-
-grep SIGNAL *.h 
-: 현재 *dir에서 .h 라는 이름을 가진 파일 중에 SIGNAL이 어디 있는지
-
 *find & grep 명령어
 
 find . -name "*.h" -exec grep SIGNAL {} /dev/null \; 
